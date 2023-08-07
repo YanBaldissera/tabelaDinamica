@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta name="theme-color" content="#00D4FF">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela</title>
+    <style>
+
+        h1{
+            font-size: clamp(40px, 8vw, 105px);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* configurnado tudo que está dentro do body*/
+        body {
+            background-color: rgb(255, 255, 255);
+            /*configurando para diferentes browsers*/
+            background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgb(78, 117, 225));
+            background-image: -moz-linear-gradient(to bottom, rgb(255, 255, 255), rgb(78, 117, 225));
+            background-image: -webkit-linear-gradient(to bottom, rgb(255, 255, 255), rgb(78, 117, 225));
+            min-height: 550px;
+            font-family: Arial, sans-serif;
+        }
+
+        section {
+            float: none;
+            width: 500px;
+            margin: 100px auto;
+            color: rgb(255, 255, 255);
+        }
+         /* consigurando só o cabeçalho */
+        section h1 {
+            float: left;
+            width: 100%;
+            height: auto;
+            margin: 0 0 10px 0;
+            padding: 0;
+            color: rgb(5, 5, 5);
+            font-size: 37px;
+            text-align: center;
+        }
+
+        /* configurando tudo dentro da tabela */
+        section table {
+            float: left;
+            width: 100%;
+            height: auto;
+            margin: 0 0 100px 0;
+            padding: 0;
+            border: 1px solid rgb(0, 0, 0);
+            background-color: rgb(210, 210, 210);
+            border-spacing: 0;
+            border-collapse: collapse;
+            box-shadow: 0 0 30px 5px rgb(0, 0, 0);
+        }
+
+        section table thead {
+            background-color: rgb(34, 34, 34);
+        }
+
+        /*formatando o tamanho das celulas */
+        section table thead tr th {
+            padding: 7px, 5px;
+            font-size: 15px;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            border: 0 solid rgb(0, 0, 0);
+            border-bottom-width: 1px;
+            border-right-width: 1px;
+        }
+
+        section table thead tr th:last-child {
+            border-right-width: 0px;
+        }
+
+
+        section table tbody {
+            background-color: rgb(220, 220, 220);
+        }
+        
+        /*configuração da bordas e tamanho das letras nas celulas*/
+        section table tbody tr td {
+            padding: 10px 5px;
+            border: 0 solid rgb(0, 0, 0);
+            border-bottom-width: 1px;
+            border-right-width: 1px;
+            text-align: center;
+            /*tamanho das letras nas celulas*/
+            font-size: 15px;
+            color: rgb(19, 19, 19);
+        }
+
+        /*para fazer o listrado nas linhas*/
+        section table tbody tr.listrado {
+            background-color: rgb(0, 0, 0, 0.1);
+        }
+
+        /*cor para o rodapé*/
+        section table tfoot {
+            color:  rgb(255, 255, 255);
+            background-color: rgb(5, 5, 5);
+        }
+
+        /*configuração texto rodapé*/
+        section table tfoot tr td {
+            padding: 10px 0;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1><span style="font-size: 30px;">&#9742;</span> Ramais</h1>
+        <table id="tabela">
+
+        </table>
+    </section>
+
+</body>
+<script>
+
+    let linhasTabela = [
+        ['Yan Benck Baldissera', '6982', ' ', 'jose', '9982'],
+        ['kauan', '6761', ' ', 'Caio', '6726'],
+        ['', '', '', 'Pontos vesgo amelio', '2762'],
+        ['vasco', '3453', ' ', 'Lucas', '8181'],
+        ['Lucas', '1717', ' ', 'Carlos', '1717'],
+        ['vasquez', '5621', ' ', 'manoel', '2324']
+    ];
+
+    function criaElemento(elemento) {
+        return document.createElement(elemento);
+    }
+
+
+    //seleciona a section
+    /*let titulo = document.querySelector("section h1");
+    titulo.textContent = "RAMAIS";*/
+
+    //seleciona o id da tabela
+    let tabela = document.getElementById("tabela");
+
+    //criando as tags para funcionar dinamicamente
+    let thead = criaElemento("thead");
+    let tbody = criaElemento("tbody");
+    let tfoot = criaElemento("tfoot");
+
+
+    let indicesTabela = ["Indice", "Nome", "Ramal", " ", "Nome", "Ramal"];
+
+    let linhaHead = criaElemento("tr");
+
+    //cria uma linha
+    function criaCelula(tag, text) {
+        tag = criaElemento(tag);
+        tag.textContent = text;
+        return tag;
+    }
+
+    //criando a linha
+    for (let i = 0; i < indicesTabela.length; i++) {
+        let th = criaCelula("th", indicesTabela[i]);
+        linhaHead.appendChild(th);
+    }
+    thead.appendChild(linhaHead);
+
+    //Passando pelos elementos dos arrays
+    for (let i = 0; i < linhasTabela.length; i++) {
+        //console.log(linhasTabela[i]);
+        let linhaBody = criaElemento("tr");
+        linhaBody.appendChild(criaCelula("td", i + 1));
+        if (i % 2 == 0) {
+            linhaBody.setAttribute("class", "listrado");
+        }
+        for (let j = 0; j < linhasTabela[i].length; j++) {
+            //console.log(linhasTabela[i][j]);
+            let cel = criaCelula("td", linhasTabela[i][j]);
+            linhaBody.appendChild(cel);
+        }
+        tbody.appendChild(linhaBody);
+    }
+
+    let linhaFoot = criaElemento("tr");
+    let celulaFoot = criaCelula("td","AMEP");
+    celulaFoot.setAttribute("colspan", 6);
+    linhaFoot.appendChild(celulaFoot);
+    tfoot.appendChild(linhaFoot);
+
+    tabela.appendChild(thead);
+    tabela.appendChild(tbody);
+    tabela.appendChild(tfoot);
+</script>
+
+</html>
